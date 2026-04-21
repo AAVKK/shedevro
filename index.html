@@ -103,31 +103,52 @@
     }
 
     async function handleLogin() {
-      const u = document.getElementById('loginUser').value;
-      const p = document.getElementById('loginPass').value;
-      const res = await fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({u, p})
-      });
-      if (res.ok) {
-        currentUser = u; currentPass = p;
-        localStorage.setItem('chat_user', u);
-        localStorage.setItem('chat_pass', p);
-        showMain();
-      } else alert("Ошибка!");
+      const u = document.getElementById('loginUser').value.trim(); // Добавили trim
+      const p = document.getElementById('loginPass').value.trim();
+      
+      if(!u || !p) return alert("Введите данные");
+
+      try {
+        const res = await fetch(`${API_URL}/login`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({u, p})
+        });
+        
+        if (res.ok) {
+          currentUser = u; 
+          currentPass = p;
+          localStorage.setItem('chat_user', u);
+          localStorage.setItem('chat_pass', p);
+          showMain();
+        } else {
+          const err = await res.json();
+          alert("Ошибка: " + err.error);
+        }
+      } catch(e) { alert("Сервер чата недоступен"); }
     }
 
     async function handleRegister() {
-      const u = document.getElementById('regUser').value;
-      const p = document.getElementById('regPass').value;
-      await fetch(`${API_URL}/reg`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({u, p})
-      });
-      alert("Готово! Теперь войдите.");
-      toggleAuth();
+      const u = document.getElementById('regUser').value.trim();
+      const p = document.getElementById('regPass').value.trim();
+      
+      if(!u || !p) return alert("Заполните поля");
+
+      try {
+        const res = await fetch(`${API_URL}/reg`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({u, p})
+        });
+
+        if (res.ok) {
+          alert("Регистрация успешна! Теперь войдите.");
+          toggleAuth();
+        } else {
+          const err = await res.json();
+          alert("Ошибка: " + err.error);
+        }
+      } catch(e) { alert("Ошибка соединения с сервером"); }
     }
 
     function showMain() {

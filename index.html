@@ -3,210 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ШЕДЕВРО ЧАТ - Система связи</title>
+  <title>ШЕДЕВРО ЧАТ - GLOBAL</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: #000;
-      color: #0f0;
-      font-family: 'Courier New', monospace;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #matrix {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      opacity: 0.15;
-    }
-
-    /* Стили экранов */
-    .screen {
-      position: relative;
-      z-index: 1;
-      display: none;
-      width: 100%;
-      height: 100%;
-      animation: fadeIn 0.5s ease;
-    }
-
-    .screen.active {
-      display: flex;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* Контейнер Авторизации */
-    .auth-container {
-      background: rgba(0, 0, 0, 0.9);
-      padding: 40px;
-      border: 2px solid #0f0;
-      border-radius: 15px;
-      box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
-      width: 100%;
-      max-width: 400px;
-      margin: auto;
-      text-align: center;
-    }
-
-    h1 { font-size: 32px; margin-bottom: 20px; text-shadow: 0 0 10px #0f0; }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      background: #000;
-      border: 1px solid #0f0;
-      color: #0f0;
-      font-family: inherit;
-      outline: none;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #0f0; font-family: 'Courier New', monospace; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    #matrix { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.15; }
+    .screen { position: relative; z-index: 1; display: none; width: 100%; height: 100%; animation: fadeIn 0.5s ease; }
+    .screen.active { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .auth-container { background: rgba(0, 0, 0, 0.9); padding: 40px; border: 2px solid #0f0; border-radius: 15px; box-shadow: 0 0 50px rgba(0, 255, 0, 0.3); width: 100%; max-width: 400px; margin: auto; text-align: center; }
+    h1 { font-size: 28px; margin-bottom: 20px; text-shadow: 0 0 10px #0f0; }
+    input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #0f0; color: #0f0; font-family: inherit; outline: none; }
     input:focus { box-shadow: 0 0 10px #0f0; }
-
-    .btn {
-      width: 100%;
-      padding: 12px;
-      margin-top: 20px;
-      background: #0f0;
-      color: #000;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
+    .btn { width: 100%; padding: 12px; margin-top: 20px; background: #0f0; color: #000; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
     .btn:hover { background: #0c0; transform: scale(1.02); }
-
-    .toggle-auth {
-      margin-top: 15px;
-      font-size: 12px;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    /* Интерфейс Мессенджера */
-    .messenger-wrapper {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      padding: 20px;
-      gap: 20px;
-    }
-
-    /* Боковая панель */
-    .sidebar {
-      width: 300px;
-      background: rgba(0, 5, 0, 0.9);
-      border: 1px solid #0f0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .sidebar-header {
-      padding: 15px;
-      border-bottom: 1px solid #0f0;
-      font-size: 14px;
-    }
-
-    .search-box { padding: 10px; }
-
-    .user-list {
-      flex: 1;
-      overflow-y: auto;
-    }
-
-    .user-item {
-      padding: 15px;
-      border-bottom: 1px solid #013301;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
+    .toggle-auth { margin-top: 15px; font-size: 12px; cursor: pointer; text-decoration: underline; }
+    .messenger-wrapper { width: 100%; height: 100vh; display: flex; padding: 20px; gap: 20px; }
+    .sidebar { width: 300px; background: rgba(0, 5, 0, 0.9); border: 1px solid #0f0; display: flex; flex-direction: column; }
+    .sidebar-header { padding: 15px; border-bottom: 1px solid #0f0; display: flex; justify-content: space-between; align-items: center; }
+    .user-list { flex: 1; overflow-y: auto; }
+    .user-item { padding: 15px; border-bottom: 1px solid #013301; cursor: pointer; transition: 0.2s; }
     .user-item:hover { background: rgba(0, 255, 0, 0.1); }
     .user-item.active { background: rgba(0, 255, 0, 0.2); }
-
-    /* Основная часть чата */
-    .chat-area {
-      flex: 1;
-      background: rgba(0, 5, 0, 0.9);
-      border: 1px solid #0f0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .chat-header {
-      padding: 15px;
-      border-bottom: 1px solid #0f0;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .messages-container {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .message {
-      max-width: 70%;
-      padding: 10px;
-      border-radius: 5px;
-      position: relative;
-      font-size: 14px;
-    }
-
-    .message.sent {
-      align-self: flex-end;
-      background: #040;
-      border: 1px solid #0f0;
-    }
-
-    .message.received {
-      align-self: flex-start;
-      border: 1px solid #0f0;
-    }
-
-    .chat-input-area {
-      padding: 20px;
-      border-top: 1px solid #0f0;
-      display: flex;
-      gap: 10px;
-    }
-
-    .chat-input-area input { margin: 0; }
-    .chat-input-area .send-btn { width: 80px; margin: 0; }
-
-    /* Скроллбар */
+    .chat-area { flex: 1; background: rgba(0, 5, 0, 0.9); border: 1px solid #0f0; display: flex; flex-direction: column; }
+    .chat-header { padding: 15px; border-bottom: 1px solid #0f0; font-weight: bold; display: flex; justify-content: space-between; }
+    .messages-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .message { max-width: 70%; padding: 10px; border-radius: 5px; font-size: 14px; word-wrap: break-word; }
+    .message.sent { align-self: flex-end; background: #040; border: 1px solid #0f0; }
+    .message.received { align-self: flex-start; border: 1px solid #0f0; }
+    .chat-input-area { padding: 20px; border-top: 1px solid #0f0; display: flex; gap: 10px; }
+    .logout-btn { color: #f00; cursor: pointer; border: 1px solid #f00; padding: 2px 5px; font-size: 10px; }
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-thumb { background: #0f0; }
-
-    .logout-btn {
-      font-size: 10px;
-      color: #f00;
-      cursor: pointer;
-      border: 1px solid #f00;
-      padding: 2px 5px;
-    }
   </style>
 </head>
 <body>
@@ -215,20 +43,20 @@
   <!-- Экран Входа -->
   <div id="loginScreen" class="screen active">
     <div class="auth-container">
-      <h1>ШЕДЕВРО ЧАТ</h1>
+      <h1>ШЕДЕВРО ВХОД</h1>
       <input type="text" id="loginUser" placeholder="ЛОГИН">
       <input type="password" id="loginPass" placeholder="ПАРОЛЬ">
-      <button class="btn" onclick="handleLogin()">Войти в аккаунт</button>
-      <div class="toggle-auth" onclick="toggleAuth()">Нет аккаунта? Регистрация</div>
+      <button class="btn" onclick="handleLogin()">АВТОРИЗАЦИЯ</button>
+      <div class="toggle-auth" onclick="toggleAuth()">Нет доступа? Регистрация</div>
     </div>
   </div>
 
   <!-- Экран Регистрации -->
   <div id="regScreen" class="screen">
     <div class="auth-container">
-      <h1>ШЕДЕВРО РЕГИСТАЦИЯ</h1>
-      <input type="text" id="regUser" placeholder="ПРИДУМАЙТЕ ЛОГИН">
-      <input type="password" id="regPass" placeholder="ПРИДУМАЙТЕ ПАРОЛЬ">
+      <h1>ШЕДЕВРО РЕГИСТРАЦИЯ</h1>
+      <input type="text" id="regUser" placeholder="ЛОГИН">
+      <input type="password" id="regPass" placeholder="ПАРОЛЬ">
       <button class="btn" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button>
       <div class="toggle-auth" onclick="toggleAuth()">Уже есть доступ? Войти</div>
     </div>
@@ -237,179 +65,153 @@
   <!-- Экран Мессенджера -->
   <div id="mainScreen" class="screen">
     <div class="messenger-wrapper">
-      <!-- Сайдбар -->
       <div class="sidebar">
         <div class="sidebar-header">
-          <div>ID: <span id="myUsername">User</span></div>
-          <div class="logout-btn" onclick="logout()">LOGOUT</div>
+          <span id="myUsername">User</span>
+          <div class="logout-btn" onclick="location.reload()">LOGOUT</div>
         </div>
-        <div class="search-box">
-          <input type="text" id="searchUser" placeholder="Поиск друга..." oninput="renderUsers()">
+        <div class="search-box" style="padding: 10px;">
+          <input type="text" id="searchUser" placeholder="Поиск..." oninput="renderUsers()">
         </div>
-        <div class="user-list" id="userList">
-          <!-- Список пользователей будет тут -->
-        </div>
+        <div class="user-list" id="userList"></div>
       </div>
-
-      <!-- Чат -->
       <div class="chat-area">
         <div class="chat-header">
           <span id="chatWith">Выберите контакт</span>
-          <span id="status">● ONLINE</span>
+          <span>● ONLINE</span>
         </div>
-        <div class="messages-container" id="msgContainer">
-          <!-- Сообщения будут тут -->
-        </div>
+        <div class="messages-container" id="msgContainer"></div>
         <div class="chat-input-area" id="inputArea" style="display: none;">
           <input type="text" id="msgInput" placeholder="Введите сообщение..." onkeypress="if(event.key==='Enter') sendMessage()">
-          <button class="btn send-btn" onclick="sendMessage()">></button>
+          <button class="btn" style="width: 60px; margin: 0;" onclick="sendMessage()">></button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    /* --- МАТРИЦА --- */
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZアイウエオカキクケコサシスセソタ';
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
-
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#0f0';
-      ctx.font = fontSize + 'px monospace';
-      for (let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-      }
-    }
-    setInterval(drawMatrix, 33);
-
-    /* --- ЛОГИКА ПРИЛОЖЕНИЯ --- */
+    /* --- НАСТРОЙКИ --- */
+    // ЗАМЕНИТЕ IP НА ВАШ!
+    const API_URL = '89.125.199.230'; 
+    
     let currentUser = null;
     let activeChat = null;
 
-    // Имитация БД в localStorage
-    if (!localStorage.getItem('users')) localStorage.setItem('users', JSON.stringify([{u: 'Admin', p: '123'}]));
-    if (!localStorage.getItem('messages')) localStorage.setItem('messages', JSON.stringify([]));
+    /* --- ЭФФЕКТ МАТРИЦЫ --- */
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const drops = Array(Math.floor(canvas.width / 14)).fill(1);
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0f0'; ctx.font = '14px monospace';
+      drops.forEach((y, i) => {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * 14, y * 14);
+        if (y * 14 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      });
+    }
+    setInterval(drawMatrix, 33);
 
+    /* --- ЛОГИКА --- */
     function toggleAuth() {
       document.getElementById('loginScreen').classList.toggle('active');
       document.getElementById('regScreen').classList.toggle('active');
     }
 
-    function handleRegister() {
+    async function handleRegister() {
       const u = document.getElementById('regUser').value.trim();
       const p = document.getElementById('regPass').value.trim();
-      if (!u || !p) return alert("Заполни поля!");
-
-      let users = JSON.parse(localStorage.getItem('users'));
-      if (users.find(user => user.u === u)) return alert("Логин занят!");
-
-      users.push({u, p});
-      localStorage.setItem('users', JSON.stringify(users));
-      alert("Регистрация успешна!");
-      toggleAuth();
+      try {
+        const res = await fetch(`${API_URL}/reg`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({u, p})
+        });
+        if (res.ok) { alert("Успешно!"); toggleAuth(); }
+        else { alert("Ошибка: возможно логин занят"); }
+      } catch(e) { alert("Сервер недоступен"); }
     }
 
-    function handleLogin() {
+    async function handleLogin() {
       const u = document.getElementById('loginUser').value.trim();
       const p = document.getElementById('loginPass').value.trim();
-      let users = JSON.parse(localStorage.getItem('users'));
-      
-      const user = users.find(user => user.u === u && user.p === p);
-      if (user) {
-        currentUser = u;
-        showMainScreen();
-      } else {
-        alert("Ошибка доступа. Проверьте данные.");
-      }
+      try {
+        const res = await fetch(`${API_URL}/login`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({u, p})
+        });
+        if (res.ok) { currentUser = u; showMain(); }
+        else { alert("Неверный логин или пароль"); }
+      } catch(e) { alert("Сервер недоступен"); }
     }
 
-    function showMainScreen() {
+    function showMain() {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById('mainScreen').classList.add('active');
       document.getElementById('myUsername').innerText = currentUser;
       renderUsers();
+      setInterval(renderMessages, 2000);
+      setInterval(renderUsers, 5000);
     }
 
-    function logout() {
-      location.reload();
-    }
-
-    function renderUsers() {
+    async function renderUsers() {
       const search = document.getElementById('searchUser').value.toLowerCase();
-      const users = JSON.parse(localStorage.getItem('users'));
-      const list = document.getElementById('userList');
-      list.innerHTML = '';
-
-      users.forEach(user => {
-        if (user.u !== currentUser && user.u.toLowerCase().includes(search)) {
-          const div = document.createElement('div');
-          div.className = `user-item ${activeChat === user.u ? 'active' : ''}`;
-          div.innerText = `> ${user.u}`;
-          div.onclick = () => openChat(user.u);
-          list.appendChild(div);
-        }
-      });
+      try {
+        const res = await fetch(`${API_URL}/users`);
+        const users = await res.json();
+        const list = document.getElementById('userList');
+        list.innerHTML = '';
+        users.forEach(user => {
+          if (user.u !== currentUser && user.u.toLowerCase().includes(search)) {
+            const div = document.createElement('div');
+            div.className = `user-item ${activeChat === user.u ? 'active' : ''}`;
+            div.innerText = `> ${user.u}`;
+            div.onclick = () => { activeChat = user.u; openChat(); };
+            list.appendChild(div);
+          }
+        });
+      } catch(e) {}
     }
 
-    function openChat(username) {
-      activeChat = username;
-      document.getElementById('chatWith').innerText = `ЧАТ: ${username}`;
+    function openChat() {
+      document.getElementById('chatWith').innerText = `ЧАТ: ${activeChat}`;
       document.getElementById('inputArea').style.display = 'flex';
-      renderUsers();
       renderMessages();
+      renderUsers();
     }
 
-    function sendMessage() {
+    async function sendMessage() {
       const input = document.getElementById('msgInput');
       const text = input.value.trim();
       if (!text || !activeChat) return;
-
-      const msgs = JSON.parse(localStorage.getItem('messages'));
-      msgs.push({
-        from: currentUser,
-        to: activeChat,
-        text: text,
-        time: Date.now()
+      await fetch(`${API_URL}/send`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({f: currentUser, t: activeChat, txt: text})
       });
-      localStorage.setItem('messages', JSON.stringify(msgs));
       input.value = '';
       renderMessages();
     }
 
-    function renderMessages() {
-      const container = document.getElementById('msgContainer');
-      container.innerHTML = '';
-      const msgs = JSON.parse(localStorage.getItem('messages'));
-
-      const filtered = msgs.filter(m => 
-        (m.from === currentUser && m.to === activeChat) || 
-        (m.from === activeChat && m.to === currentUser)
-      );
-
-      filtered.forEach(m => {
-        const div = document.createElement('div');
-        div.className = `message ${m.from === currentUser ? 'sent' : 'received'}`;
-        div.innerText = m.text;
-        container.appendChild(div);
-      });
-      container.scrollTop = container.scrollHeight;
+    async function renderMessages() {
+      if (!activeChat) return;
+      try {
+        const res = await fetch(`${API_URL}/messages/${currentUser}/${activeChat}`);
+        const msgs = await res.json();
+        const container = document.getElementById('msgContainer');
+        const isBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
+        
+        container.innerHTML = msgs.map(m => `
+          <div class="message ${m.f === currentUser ? 'sent' : 'received'}">${m.txt}</div>
+        `).join('');
+        
+        if (isBottom) container.scrollTop = container.scrollHeight;
+      } catch(e) {}
     }
-
-    // Авто-обновление сообщений каждые 2 секунды
-    setInterval(() => {
-      if (activeChat) renderMessages();
-    }, 2000);
   </script>
 </body>
 </html>

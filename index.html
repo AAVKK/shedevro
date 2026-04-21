@@ -8,44 +8,67 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #000; color: #0f0; font-family: 'Courier New', monospace; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     #matrix { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.1; }
-    .screen { position: relative; z-index: 1; display: none; width: 100%; height: 100%; animation: fadeIn 0.5s; }
+    .screen { position: relative; z-index: 1; display: none; width: 100%; height: 100%; animation: fadeIn 0.4s; }
     .screen.active { display: flex; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .auth-container { background: rgba(0,0,0,0.9); padding: 40px; border: 2px solid #0f0; border-radius: 15px; width: 100%; max-width: 400px; margin: auto; text-align: center; }
-    input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #0f0; color: #0f0; font-family: inherit; }
-    .btn { width: 100%; padding: 12px; margin-top: 10px; background: #0f0; color: #000; border: none; font-weight: bold; cursor: pointer; }
-    .messenger-wrapper { width: 100%; height: 100vh; display: flex; padding: 20px; gap: 20px; }
-    .sidebar { width: 320px; background: rgba(0,5,0,0.9); border: 1px solid #0f0; display: flex; flex-direction: column; }
-    .sidebar-header { padding: 15px; border-bottom: 1px solid #0f0; display: flex; justify-content: space-between; font-size: 12px; }
+    
+    .auth-container { background: rgba(0,0,0,0.95); padding: 40px; border: 2px solid #0f0; border-radius: 15px; width: 100%; max-width: 400px; margin: auto; text-align: center; }
+    input { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #0f0; color: #0f0; font-family: inherit; font-size: 16px; }
+    .btn { width: 100%; padding: 15px; margin-top: 10px; background: #0f0; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 16px; }
+
+    .messenger-wrapper { width: 100%; height: 100vh; display: flex; padding: 15px; gap: 15px; }
+    
+    /* Список чатов */
+    .sidebar { width: 350px; background: rgba(0,5,0,0.9); border: 1px solid #0f0; display: flex; flex-direction: column; }
+    .sidebar-header { padding: 20px; border-bottom: 1px solid #0f0; display: flex; justify-content: space-between; font-size: 16px; }
     .user-list { flex: 1; overflow-y: auto; }
-    .user-item { padding: 15px; border-bottom: 1px solid #013301; cursor: pointer; position: relative; display: flex; justify-content: space-between; }
+    .user-item { padding: 18px; border-bottom: 1px solid #013301; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .user-item:hover { background: rgba(0,255,0,0.1); }
     .user-item.active { background: rgba(0,255,0,0.2); }
-    .unread-badge { background: #f00; color: #fff; border-radius: 50%; padding: 2px 7px; font-size: 10px; }
-    .online-dot { color: #0f0; font-size: 10px; }
-    .offline-dot { color: #555; font-size: 10px; }
-    .chat-area { flex: 1; background: rgba(0,5,0,0.9); border: 1px solid #0f0; display: flex; flex-direction: column; }
-    .chat-header { padding: 15px; border-bottom: 1px solid #0f0; font-weight: bold; display: flex; justify-content: space-between; }
-    .messages-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-    .message { max-width: 70%; padding: 10px; border-radius: 5px; font-size: 14px; position: relative; }
-    .message.sent { align-self: flex-end; background: #040; border: 1px solid #0f0; }
-    .message.received { align-self: flex-start; border: 1px solid #0f0; }
+    .online-dot { color: #0f0; font-size: 22px; line-height: 0; margin-right: 5px; vertical-align: middle; }
+    .offline-dot { color: #333; font-size: 22px; line-height: 0; margin-right: 5px; vertical-align: middle; }
+    .unread-badge { background: #f00; color: #fff; border-radius: 12px; padding: 2px 10px; font-size: 12px; font-weight: bold; }
+
+    /* Область чата */
+    .chat-area { flex: 1; background: rgba(0,5,0,0.9); border: 1px solid #0f0; display: flex; flex-direction: column; min-width: 0; }
+    .chat-header { padding: 20px; border-bottom: 1px solid #0f0; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+    .messages-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+    
+    /* Сообщение */
+    .message { 
+        max-width: 80%; 
+        padding: 12px 15px; 
+        border-radius: 8px; 
+        font-size: 17px; 
+        position: relative; 
+        word-wrap: break-word; 
+        white-space: pre-wrap; /* Перенос строк */
+        overflow-wrap: break-word;
+        display: inline-block;
+    }
+    .message.sent { align-self: flex-end; background: #030; border: 1px solid #0f0; }
+    .message.received { align-self: flex-start; background: #111; border: 1px solid #0f0; }
+    
+    .msg-info { font-size: 11px; opacity: 0.7; margin-bottom: 5px; display: flex; justify-content: space-between; gap: 20px; }
+    .msg-time { font-size: 10px; margin-top: 5px; text-align: right; opacity: 0.5; }
+    .msg-del { color: #f55; cursor: pointer; font-weight: bold; margin-left: 10px; }
+
     .chat-input-area { padding: 20px; border-top: 1px solid #0f0; display: flex; gap: 10px; }
-    .admin-del { color: #f00; cursor: pointer; margin-left: 10px; font-weight: bold; }
-    .logout-btn { color: #f00; cursor: pointer; text-decoration: underline; }
+    .logout-btn { color: #f00; cursor: pointer; font-size: 14px; }
   </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
   <audio id="notifSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_731454063d.mp3"></audio>
 
+  <!-- Экраны входа/регистрации (без изменений) -->
   <div id="loginScreen" class="screen active">
     <div class="auth-container">
       <h1>ШЕДЕВРО ВХОД</h1>
       <input type="text" id="loginUser" placeholder="ЛОГИН">
       <input type="password" id="loginPass" placeholder="ПАРОЛЬ">
       <button class="btn" onclick="handleLogin()">ВОЙТИ</button>
-      <div style="margin-top:10px; font-size:12px; cursor:pointer" onclick="toggleAuth()">Регистрация</div>
+      <div style="margin-top:15px; font-size:14px; cursor:pointer" onclick="toggleAuth()">Регистрация</div>
     </div>
   </div>
 
@@ -55,31 +78,29 @@
       <input type="text" id="regUser" placeholder="ЛОГИН">
       <input type="password" id="regPass" placeholder="ПАРОЛЬ">
       <button class="btn" onclick="handleRegister()">СОЗДАТЬ</button>
-      <div style="margin-top:10px; font-size:12px; cursor:pointer" onclick="toggleAuth()">Есть аккаунт? Войти</div>
+      <div style="margin-top:15px; font-size:14px; cursor:pointer" onclick="toggleAuth()">Вход</div>
     </div>
   </div>
 
+  <!-- Главный экран -->
   <div id="mainScreen" class="screen">
     <div class="messenger-wrapper">
       <div class="sidebar">
         <div class="sidebar-header">
-          <span id="myUsername">User</span>
+          <span id="myUsername" style="font-weight:bold">User</span>
           <span class="logout-btn" onclick="logout()">ВЫЙТИ</span>
-        </div>
-        <div id="adminPanel" style="display:none; padding:10px; border-bottom:1px solid #0f0">
-           <button class="btn" style="font-size:10px; margin:0" onclick="viewAllMessages()">ПРОСМОТР ВСЕХ СООБЩЕНИЙ</button>
         </div>
         <div class="user-list" id="userList"></div>
       </div>
       <div class="chat-area">
         <div class="chat-header">
-          <span id="chatWith">Выберите контакт</span>
-          <span id="chatStatus"></span>
+          <span id="chatWith">Выберите чат</span>
+          <span id="headerStatus" style="font-size:14px"></span>
         </div>
         <div class="messages-container" id="msgContainer"></div>
         <div class="chat-input-area" id="inputArea" style="display:none">
-          <input type="text" id="msgInput" placeholder="Сообщение...">
-          <button class="btn" style="width:60px; margin:0" onclick="sendMessage()">></button>
+          <input type="text" id="msgInput" placeholder="Введите сообщение..." onkeypress="if(event.key==='Enter') sendMessage()">
+          <button class="btn" style="width:70px; margin:0" onclick="sendMessage()">></button>
         </div>
       </div>
     </div>
@@ -91,11 +112,9 @@
     let currentPass = localStorage.getItem('chat_pass');
     let activeChat = null;
     let lastMsgCount = 0;
+    let usersData = [];
 
-    // Авто-вход при загрузке
-    window.onload = () => {
-        if (currentUser && currentPass) showMain();
-    }
+    window.onload = () => { if (currentUser && currentPass) showMain(); }
 
     function toggleAuth() {
       document.getElementById('loginScreen').classList.toggle('active');
@@ -103,73 +122,48 @@
     }
 
     async function handleLogin() {
-      const u = document.getElementById('loginUser').value.trim(); // Добавили trim
+      const u = document.getElementById('loginUser').value.trim();
       const p = document.getElementById('loginPass').value.trim();
-      
-      if(!u || !p) return alert("Введите данные");
-
-      try {
-        const res = await fetch(`${API_URL}/login`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({u, p})
-        });
-        
-        if (res.ok) {
-          currentUser = u; 
-          currentPass = p;
-          localStorage.setItem('chat_user', u);
-          localStorage.setItem('chat_pass', p);
-          showMain();
-        } else {
-          const err = await res.json();
-          alert("Ошибка: " + err.error);
-        }
-      } catch(e) { alert("Сервер чата недоступен"); }
+      const res = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({u, p})
+      });
+      if (res.ok) {
+        currentUser = u; currentPass = p;
+        localStorage.setItem('chat_user', u);
+        localStorage.setItem('chat_pass', p);
+        showMain();
+      } else alert("Ошибка входа!");
     }
 
     async function handleRegister() {
       const u = document.getElementById('regUser').value.trim();
       const p = document.getElementById('regPass').value.trim();
-      
-      if(!u || !p) return alert("Заполните поля");
-
-      try {
-        const res = await fetch(`${API_URL}/reg`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({u, p})
-        });
-
-        if (res.ok) {
-          alert("Регистрация успешна! Теперь войдите.");
-          toggleAuth();
-        } else {
-          const err = await res.json();
-          alert("Ошибка: " + err.error);
-        }
-      } catch(e) { alert("Ошибка соединения с сервером"); }
+      const res = await fetch(`${API_URL}/reg`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({u, p})
+      });
+      if(res.ok) { alert("Успешно! Войдите."); toggleAuth(); } else alert("Логин занят");
     }
 
     function showMain() {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById('mainScreen').classList.add('active');
       document.getElementById('myUsername').innerText = currentUser;
-      if (currentUser === 'admin') document.getElementById('adminPanel').style.display = 'block';
       
       setInterval(renderUsers, 3000);
       setInterval(renderMessages, 2000);
       renderUsers();
     }
 
-    function logout() {
-      localStorage.clear();
-      location.reload();
-    }
+    function logout() { localStorage.clear(); location.reload(); }
 
     async function renderUsers() {
       const res = await fetch(`${API_URL}/users/${currentUser}`);
       const data = await res.json();
+      usersData = data.users;
       const list = document.getElementById('userList');
       list.innerHTML = '';
       
@@ -178,36 +172,42 @@
         const unread = data.unread.find(b => b.f === user.u);
         const isOnline = (Date.now() - user.last_seen) < 30000;
         
+        // Обновляем статус в хедере если открыт этот чат
+        if (activeChat === user.u) {
+            document.getElementById('headerStatus').innerHTML = isOnline ? 
+                '<span style="color:#0f0">● ONLINE</span>' : 
+                '<span style="color:#555">OFFLINE</span>';
+        }
+
         const div = document.createElement('div');
         div.className = `user-item ${activeChat === user.u ? 'active' : ''}`;
         div.innerHTML = `
-          <span>
+          <span style="font-size:18px">
             <span class="${isOnline ? 'online-dot' : 'offline-dot'}">●</span> ${user.u}
-            ${currentUser === 'admin' ? `<span class="admin-del" onclick="deleteUser('${user.u}')">[X]</span>` : ''}
           </span>
           ${unread ? `<span class="unread-badge">${unread.count}</span>` : ''}
         `;
-        div.onclick = (e) => {
-            if (e.target.className !== 'admin-del') {
-                activeChat = user.u;
-                document.getElementById('chatWith').innerText = "ЧАТ: " + user.u;
-                document.getElementById('inputArea').style.display = 'flex';
-                renderMessages();
-            }
+        div.onclick = () => {
+            activeChat = user.u;
+            document.getElementById('chatWith').innerText = "ЧАТ: " + user.u;
+            document.getElementById('inputArea').style.display = 'flex';
+            renderMessages();
+            renderUsers();
         };
         list.appendChild(div);
       });
     }
 
     async function sendMessage() {
-      const txt = document.getElementById('msgInput').value;
+      const input = document.getElementById('msgInput');
+      const txt = input.value.trim();
       if (!txt || !activeChat) return;
       await fetch(`${API_URL}/send`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({f: currentUser, t: activeChat, txt})
       });
-      document.getElementById('msgInput').value = '';
+      input.value = '';
       renderMessages();
     }
 
@@ -222,40 +222,41 @@
       }
 
       const container = document.getElementById('msgContainer');
-      container.innerHTML = msgs.map(m => `
-        <div class="message ${m.f === currentUser ? 'sent' : 'received'}">
-          <div style="font-size:8px; opacity:0.5">${m.f}</div>
-          ${m.txt}
-        </div>
-      `).join('');
+      container.innerHTML = msgs.map(m => {
+          const time = new Date(m.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+          const canDelete = (m.f === currentUser || currentUser === 'admin');
+          return `
+            <div class="message ${m.f === currentUser ? 'sent' : 'received'}">
+              <div class="msg-info">
+                <span style="font-weight:bold; color:#0f0">${m.f}</span>
+                ${canDelete ? `<span class="msg-del" onclick="deleteMsg(${m.time}, '${m.f}')">УДАЛИТЬ</span>` : ''}
+              </div>
+              <div class="msg-text">${m.txt}</div>
+              <div class="msg-time">${time}</div>
+            </div>
+          `;
+      }).join('');
       container.scrollTop = container.scrollHeight;
     }
 
-    async function deleteUser(target) {
-        if (confirm("Удалить юзера " + target + "?")) {
-            await fetch(`${API_URL}/admin/delete`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({adminUser: currentUser, adminPass: currentPass, targetUser: target})
-            });
-            renderUsers();
-        }
+    async function deleteMsg(time, from) {
+        if (!confirm("Удалить сообщение?")) return;
+        await fetch(`${API_URL}/message/delete`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({u: currentUser, p: currentPass, time: time, f: from})
+        });
+        renderMessages();
     }
 
-    function viewAllMessages() {
-        activeChat = 'ADMIN_VIEW_ALL';
-        document.getElementById('chatWith').innerText = "ВСЕ СООБЩЕНИЯ СИСТЕМЫ";
-        document.getElementById('inputArea').style.display = 'none';
-    }
-
-    // Эффект матрицы
+    // Матрица (без изменений)
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth; canvas.height = window.innerHeight;
     const drops = Array(Math.floor(canvas.width/14)).fill(1);
     function draw() {
       ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle = '#0f0';
+      ctx.fillStyle = '#0f0'; ctx.font = '14px monospace';
       drops.forEach((y, i) => {
         ctx.fillText(String.fromCharCode(65 + Math.random()*33), i*14, y*14);
         if (y*14 > canvas.height && Math.random() > 0.975) drops[i] = 0;
